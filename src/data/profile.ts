@@ -30,7 +30,7 @@ export const PROFILE: ProfileData = {
     'I’m Mrunal Patil, a second-year Computer Science and Engineering student interested in building useful digital experiences.',
   aboutBio: [
     'I am a second-year B.Tech Computer Science and Engineering student at R. C. Patel Institute of Technology, Shirpur. My focus is on writing structured, accessible frontend applications and dependable backend services.',
-    'Through my projects, I have worked on voice-assisted healthcare intake tools, agronomic advisory platforms with localized crop data, and full-stack productivity utilities. I enjoy transforming real-world problem statements into clean, maintainable software.',
+    'Through my projects, I have engineered agronomic advisory platforms with regional crop data, static exam analytics tools, and full-stack productivity applications. I enjoy transforming real-world problem statements into clean, maintainable software.',
     'I prioritize strong architectural foundations, semantic HTML, modern TypeScript, responsive layouts, and reliable automated tests.',
   ],
 };

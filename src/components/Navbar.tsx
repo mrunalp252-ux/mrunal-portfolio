@@ -3,20 +3,22 @@ import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { PROFILE } from '../data/profile';
 
 interface NavItem {
+  id: string;
   label: string;
   href: string;
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: 'Work', href: '#work' },
-  { label: 'About', href: '#about' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Contact', href: '#contact' },
+  { id: 'work', label: 'Work', href: '#work' },
+  { id: 'about', label: 'About', href: '#about' },
+  { id: 'skills', label: 'Skills', href: '#skills' },
+  { id: 'contact', label: 'Contact', href: '#contact' },
 ];
 
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>('work');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,6 +26,33 @@ export const Navbar: React.FC = () => {
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Active section scroll spy
+  useEffect(() => {
+    const sectionIds = ['hero', 'work', 'about', 'skills', 'contact'];
+    const observers: IntersectionObserver[] = [];
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActiveSection(id);
+            }
+          });
+        },
+        { threshold: 0.35 },
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+
+    return () => {
+      observers.forEach((obs) => obs.disconnect());
+    };
   }, []);
 
   // Handle escape key to close mobile menu
@@ -53,9 +82,9 @@ export const Navbar: React.FC = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-200 ${
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         scrolled
-          ? 'bg-[#0B0D10]/85 backdrop-blur-md border-b border-[#232834] py-3.5 shadow-lg shadow-black/30'
+          ? 'bg-[#0B0D10]/85 backdrop-blur-md border-b border-[#232834] py-3.5 shadow-xl shadow-black/40'
           : 'bg-transparent py-5 border-b border-transparent'
       }`}
     >
@@ -64,9 +93,9 @@ export const Navbar: React.FC = () => {
         <a
           href="#"
           className="group flex items-center space-x-3 text-inherit no-underline focus-visible:outline-[#C7FF3A]"
-          aria-label={`${PROFILE.name} - Home`}
+          aria-label={`${PROFILE.name} - Return to top`}
         >
-          <div className="w-10 h-10 rounded-lg bg-[#13161C] border border-[#232834] flex items-center justify-center transition-colors group-hover:border-[#C7FF3A]/60 group-hover:shadow-[0_0_15px_rgba(199,255,58,0.2)]">
+          <div className="w-10 h-10 rounded-lg bg-[#13161C] border border-[#232834] flex items-center justify-center transition-all duration-300 group-hover:border-[#C7FF3A]/60 group-hover:shadow-[0_0_15px_rgba(199,255,58,0.25)]">
             <span className="font-mono text-sm font-semibold tracking-wider text-[#F5F5F0] group-hover:text-[#C7FF3A] transition-colors">
               {PROFILE.monogram}
             </span>
@@ -81,28 +110,48 @@ export const Navbar: React.FC = () => {
           </div>
         </a>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center space-x-8" aria-label="Main Navigation">
-          {NAV_ITEMS.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="text-sm font-medium text-[#969BA3] hover:text-[#C7FF3A] transition-colors tracking-wide py-1"
-            >
-              {item.label}
-            </a>
-          ))}
+        {/* Desktop Navigation Links with Animated Indicator */}
+        <nav
+          className="hidden md:flex items-center space-x-1 p-1 rounded-full bg-[#13161C]/80 border border-[#232834] backdrop-blur-md"
+          aria-label="Main Navigation"
+        >
+          {NAV_ITEMS.map((item) => {
+            const isActive = activeSection === item.id;
+            return (
+              <a
+                key={item.id}
+                href={item.href}
+                className={`relative px-4 py-1.5 rounded-full text-xs font-mono uppercase tracking-wider transition-all duration-200 ${
+                  isActive
+                    ? 'text-[#0B0D10] font-semibold'
+                    : 'text-[#969BA3] hover:text-[#F5F5F0]'
+                }`}
+              >
+                {isActive && (
+                  <span
+                    className="absolute inset-0 rounded-full bg-[#C7FF3A] shadow-sm shadow-[#C7FF3A]/30 transition-all"
+                    style={{ zIndex: -1 }}
+                  />
+                )}
+                {item.label}
+              </a>
+            );
+          })}
+        </nav>
+
+        {/* Desktop External GitHub Button */}
+        <div className="hidden md:flex items-center">
           <a
             href={PROFILE.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center space-x-1.5 text-xs font-mono uppercase tracking-wider px-3 py-1.5 rounded-md bg-[#13161C] border border-[#232834] text-[#F5F5F0] hover:border-[#C7FF3A] hover:text-[#C7FF3A] transition-all"
+            className="inline-flex items-center space-x-1.5 text-xs font-mono uppercase tracking-wider px-3.5 py-1.5 rounded-lg bg-[#13161C] border border-[#232834] text-[#F5F5F0] hover:border-[#C7FF3A] hover:text-[#C7FF3A] hover:shadow-[0_0_12px_rgba(199,255,58,0.15)] transition-all"
             aria-label="GitHub Profile (opens in new tab)"
           >
             <span>GitHub</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </a>
-        </nav>
+        </div>
 
         {/* Mobile Hamburger Button */}
         <div className="md:hidden flex items-center space-x-2">
@@ -131,12 +180,15 @@ export const Navbar: React.FC = () => {
           <div className="flex flex-col space-y-4 pt-4">
             {NAV_ITEMS.map((item) => (
               <a
-                key={item.label}
+                key={item.id}
                 href={item.href}
                 onClick={closeMenu}
-                className="text-2xl font-semibold text-[#F5F5F0] hover:text-[#C7FF3A] py-2 border-b border-[#232834]/50 transition-colors"
+                className="text-2xl font-semibold text-[#F5F5F0] hover:text-[#C7FF3A] py-2 border-b border-[#232834]/50 transition-colors flex items-center justify-between"
               >
-                {item.label}
+                <span>{item.label}</span>
+                {activeSection === item.id && (
+                  <span className="w-2 h-2 rounded-full bg-[#C7FF3A]" />
+                )}
               </a>
             ))}
           </div>

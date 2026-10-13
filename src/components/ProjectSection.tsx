@@ -23,7 +23,7 @@ export const ProjectSection: React.FC = () => {
             Built from requirements to code.
           </h2>
           <p className="text-base sm:text-lg text-[#969BA3] leading-relaxed">
-            A curated portfolio of software projects spanning clinical healthcare copilots, regional agronomy platforms, and web utilities. Every feature, technology, and link is derived directly from working source code.
+            A curated portfolio of software projects spanning regional agronomy platforms, university examination analytics, and full-stack web applications. Every feature, technology, and link is derived directly from working source code.
           </p>
         </div>
 
@@ -41,7 +41,7 @@ export const ProjectSection: React.FC = () => {
               Additional Engineering Work
             </h3>
             <span className="text-xs font-mono text-[#686D76]">
-              {secondaryProjects.length} Verified Repositories
+              {secondaryProjects.length} Verified Projects
             </span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

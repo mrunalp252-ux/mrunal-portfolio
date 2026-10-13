@@ -9,7 +9,7 @@ A modern, neo-futuristic personal developer portfolio engineered with React 19, 
 - **Neo-Futuristic Minimalism (Signal Core)**: Sleek dark-mode aesthetic pairing deep graphite (`#0B0D10`), crisp off-white typography (`#F5F5F0`), cool grey structural wireframes (`#969BA3`), and electric acid-lime accents (`#C7FF3A`).
 - **Signature 3D Hero (Signal Core)**: Lightweight Three.js interactive canvas displaying a wireframe geometric node lattice with idle rotation, damped pointer tilt, viewport pause, and WebGL/reduced-motion SVG fallback.
 - **Single Source of Truth**: All profile data, projects, and skills are decoupled into type-safe data files under `src/data/`.
-- **Verified Engineering Projects**: Flagship storytelling for **SwasthyaAI** (doctor-supervised healthcare copilot) and **Krishi Sahayak** (multilingual Indian agriculture platform), alongside compact showcases for **Question Paper Analyzer**, **SmartNotes**, and **CarWash Connect**.
+- **Verified Engineering Projects**: Flagship storytelling for **Krishi Sahayak** (multilingual Indian agriculture platform), alongside focused showcases for **Question Paper Analyzer**, **SmartNotes**, and **CarWash Connect**.
 - **High Performance**: Code-split Three.js bundle, sub-85 KB initial gzipped JavaScript, local `@fontsource` font packages, and zero external blocking fonts.
 
 ---
