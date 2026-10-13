@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#0B0D10"/>
+  <rect x="1" y="1" width="62" height="62" rx="13" stroke="#232834" stroke-width="2"/>
+  <!-- MP Monogram in Neo-Futuristic Signal Core style -->
+  <path d="M16 46V18L24 33L32 18V46" stroke="#F5F5F0" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M38 46V18H48C51.3137 18 54 20.6863 54 24C54 27.3137 51.3137 30 48 30H38" stroke="#C7FF3A" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="48" cy="24" r="2" fill="#C7FF3A"/>
+</svg>
