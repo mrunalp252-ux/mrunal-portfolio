@@ -41,7 +41,8 @@ A modern, neo-futuristic personal developer portfolio engineered with React 19, 
 │   ├── components/
 │   │   ├── AboutSection.tsx  # Academic background & values
 │   │   ├── ContactSection.tsx# Direct email, copy-to-clipboard, social links
-│   │   ├── Diagrams.tsx      # System architecture & clinical pipeline diagrams
+│   │   ├── Diagrams.tsx      # System architecture & agronomic flow diagrams
+│   │   ├── EducationSection.tsx # Undergraduate academic coursework & milestones
 │   │   ├── Footer.tsx        # Dynamic copyright & quick navigation
 │   │   ├── Hero.tsx          # Headline, introduction & 3D hero container
 │   │   ├── Icons.tsx         # Accessible SVG icon components

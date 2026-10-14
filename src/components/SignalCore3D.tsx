@@ -1,27 +1,29 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { useReducedMotion } from 'motion/react';
 import { SignalCoreFallback } from './SignalCoreFallback';
+
+function detectWebGL(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    const canvas = document.createElement('canvas');
+    return !!(
+      window.WebGLRenderingContext &&
+      (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+    );
+  } catch {
+    return false;
+  }
+}
+
+const IS_WEBGL_SUPPORTED = detectWebGL();
 
 export const SignalCore3D: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [hasWebGLError, setHasWebGLError] = useState<boolean>(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(false);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
-    // Check user preference for reduced motion
-    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(motionQuery.matches);
-
-    const handleMotionChange = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches);
-    };
-
-    motionQuery.addEventListener('change', handleMotionChange);
-    return () => motionQuery.removeEventListener('change', handleMotionChange);
-  }, []);
-
-  useEffect(() => {
-    if (prefersReducedMotion || hasWebGLError || !containerRef.current) {
+    if (prefersReducedMotion || !IS_WEBGL_SUPPORTED || !containerRef.current) {
       return;
     }
 
@@ -128,6 +130,19 @@ export const SignalCore3D: React.FC = () => {
       const nodeGroup = new THREE.Group();
       scene.add(nodeGroup);
 
+      // Central glowing beacon
+      const centerGeo = new THREE.SphereGeometry(0.12, 16, 16);
+      disposables.push(centerGeo);
+      const centerMat = new THREE.MeshBasicMaterial({
+        color: 0xc7ff3a,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.8,
+      });
+      disposables.push(centerMat);
+      const centerMesh = new THREE.Mesh(centerGeo, centerMat);
+      scene.add(centerMesh);
+
       // Select specific vertex indices for lime accent
       const limeIndices = new Set([0, 3, 7, 10]);
 
@@ -147,14 +162,15 @@ export const SignalCore3D: React.FC = () => {
       rootGroup.add(wireframeMesh);
       rootGroup.add(innerMesh);
       rootGroup.add(nodeGroup);
+      rootGroup.add(centerMesh);
 
       // 4. Pointer Interaction for Subtle Damped Tilt
       const handlePointerMove = (e: MouseEvent) => {
         const rect = container.getBoundingClientRect();
         const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
         const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-        targetTiltX = y * 0.25;
-        targetTiltY = x * 0.35;
+        targetTiltX = y * 0.28;
+        targetTiltY = x * 0.38;
       };
 
       const handlePointerLeave = () => {
@@ -224,6 +240,10 @@ export const SignalCore3D: React.FC = () => {
         innerMesh.rotation.y -= delta * 0.15;
         innerMesh.rotation.x += delta * 0.08;
 
+        // Subtle pulsing for central beacon
+        const scaleVal = 1 + Math.sin(currentTime * 0.002) * 0.08;
+        centerMesh.scale.set(scaleVal, scaleVal, scaleVal);
+
         renderer.render(scene, camera);
       };
 
@@ -252,11 +272,11 @@ export const SignalCore3D: React.FC = () => {
         }
       };
     } catch {
-      setHasWebGLError(true);
+      // Ignore WebGL creation failure; fallback handles rendering
     }
-  }, [prefersReducedMotion, hasWebGLError]);
+  }, [prefersReducedMotion]);
 
-  if (prefersReducedMotion || hasWebGLError) {
+  if (prefersReducedMotion || !IS_WEBGL_SUPPORTED) {
     return <SignalCoreFallback />;
   }
 

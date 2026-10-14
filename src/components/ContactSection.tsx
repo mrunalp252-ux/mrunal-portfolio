@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Mail, Copy, Check, ArrowUpRight } from 'lucide-react';
+import { Mail, Copy, Check, ArrowUpRight, Clock } from 'lucide-react';
 import { GitHubIcon, LinkedInIcon } from './Icons';
 import { PROFILE } from '../data/profile';
+import { MagneticButton } from './MagneticButton';
 
 export const ContactSection: React.FC = () => {
   const [copied, setCopied] = useState(false);
@@ -40,9 +41,15 @@ export const ContactSection: React.FC = () => {
         {/* Contact Container */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           {/* Email Primary Card */}
-          <div className="md:col-span-7 rounded-2xl bg-[#13161C] border border-[#232834] p-6 sm:p-8 flex flex-col justify-between space-y-6">
+          <div className="md:col-span-7 rounded-2xl bg-[#13161C] border border-[#232834] p-6 sm:p-8 flex flex-col justify-between space-y-6 hover:border-[#373E50] transition-colors">
             <div className="space-y-3">
-              <span className="text-xs font-mono text-[#686D76] uppercase">Primary Email Address</span>
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono text-[#686D76] uppercase">Primary Email Address</span>
+                <span className="inline-flex items-center space-x-1.5 text-[11px] font-mono text-[#C7FF3A]">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>Fast Response</span>
+                </span>
+              </div>
               <div className="text-xl sm:text-2xl font-mono font-medium text-[#F5F5F0] break-all">
                 {PROFILE.email}
               </div>
@@ -52,14 +59,15 @@ export const ContactSection: React.FC = () => {
             </div>
 
             <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-[#232834]">
-              {/* Mailto Link */}
-              <a
+              {/* Mailto Link with Magnetic Button */}
+              <MagneticButton
                 href={`mailto:${PROFILE.email}`}
                 className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-lg bg-[#C7FF3A] text-[#0B0D10] text-xs font-mono font-semibold hover:bg-[#d6ff66] transition-colors focus-visible:outline-[#C7FF3A]"
+                aria-label={`Send email to ${PROFILE.email}`}
               >
                 <Mail className="w-4 h-4" />
                 <span>Open Mail Client</span>
-              </a>
+              </MagneticButton>
 
               {/* Copy Email Button */}
               <button
@@ -89,14 +97,14 @@ export const ContactSection: React.FC = () => {
           </div>
 
           {/* Social / Profiles Card */}
-          <div className="md:col-span-5 rounded-2xl bg-[#13161C] border border-[#232834] p-6 sm:p-8 flex flex-col justify-between space-y-6">
+          <div className="md:col-span-5 rounded-2xl bg-[#13161C] border border-[#232834] p-6 sm:p-8 flex flex-col justify-between space-y-6 hover:border-[#373E50] transition-colors">
             <div className="space-y-3">
               <span className="text-xs font-mono text-[#686D76] uppercase">Verified Profiles</span>
               <h3 className="text-lg font-display font-semibold text-[#F5F5F0]">
                 External Channels
               </h3>
               <p className="text-xs text-[#969BA3]">
-                Connect with me on GitHub to inspect live repositories and source commits, or via LinkedIn.
+                Connect with me on GitHub to inspect live repositories and source commits, or via LinkedIn for professional discussions.
               </p>
             </div>
 
@@ -105,7 +113,7 @@ export const ContactSection: React.FC = () => {
                 href={PROFILE.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between p-3.5 rounded-xl bg-[#181C25] border border-[#232834] hover:border-[#C7FF3A] transition-colors"
+                className="group flex items-center justify-between p-3.5 rounded-xl bg-[#181C25] border border-[#232834] hover:border-[#C7FF3A] hover:shadow-lg hover:shadow-black/40 transition-all"
                 aria-label="GitHub Profile (opens in new tab)"
               >
                 <div className="flex items-center space-x-3">
@@ -126,7 +134,7 @@ export const ContactSection: React.FC = () => {
                 href={PROFILE.linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between p-3.5 rounded-xl bg-[#181C25] border border-[#232834] hover:border-[#C7FF3A] transition-colors"
+                className="group flex items-center justify-between p-3.5 rounded-xl bg-[#181C25] border border-[#232834] hover:border-[#C7FF3A] hover:shadow-lg hover:shadow-black/40 transition-all"
                 aria-label="LinkedIn Profile (opens in new tab)"
               >
                 <div className="flex items-center space-x-3">

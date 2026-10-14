@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, GraduationCap, MapPin, BookOpen, Compass } from 'lucide-react';
+import { User, GraduationCap, MapPin, BookOpen, Compass, ShieldCheck, Terminal } from 'lucide-react';
 import { PROFILE } from '../data/profile';
 
 export const AboutSection: React.FC = () => {
@@ -29,17 +29,18 @@ export const AboutSection: React.FC = () => {
             ))}
 
             <div className="pt-4 border-t border-[#232834]">
-              <h3 className="text-sm font-mono uppercase text-[#F5F5F0] mb-3">
-                Core Development Values
+              <h3 className="text-sm font-mono uppercase text-[#F5F5F0] mb-3 flex items-center space-x-2">
+                <Terminal className="w-4 h-4 text-[#C7FF3A]" />
+                <span>Core Engineering Principles</span>
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-[#969BA3]">
-                <div className="p-3 rounded-lg bg-[#13161C] border border-[#232834]">
-                  <strong className="text-[#F5F5F0] block mb-1">Human-Centric Safeguards</strong>
-                  Prioritizing doctor oversight, accessibility, and intuitive multilingual inputs in high-stakes contexts.
+                <div className="p-3.5 rounded-lg bg-[#13161C] border border-[#232834] hover:border-[#373E50] transition-colors">
+                  <strong className="text-[#F5F5F0] block mb-1">Accessibility &amp; Inclusion</strong>
+                  Prioritizing multilingual support, responsive touch ergonomics, and intuitive navigation across diverse user contexts.
                 </div>
-                <div className="p-3 rounded-lg bg-[#13161C] border border-[#232834]">
+                <div className="p-3.5 rounded-lg bg-[#13161C] border border-[#232834] hover:border-[#373E50] transition-colors">
                   <strong className="text-[#F5F5F0] block mb-1">Measurable Correctness</strong>
-                  Validating endpoints with automated testing and maintaining strict type contracts with TypeScript.
+                  Validating endpoints with automated regression test suites and enforcing strict type contracts with TypeScript.
                 </div>
               </div>
             </div>
@@ -47,8 +48,9 @@ export const AboutSection: React.FC = () => {
 
           {/* Academic & Fast Facts Card */}
           <div className="lg:col-span-5 rounded-2xl bg-[#13161C] border border-[#232834] p-6 sm:p-8 space-y-6">
-            <h3 className="text-base font-display font-semibold text-[#F5F5F0] pb-2 border-b border-[#232834]">
-              Academic Information
+            <h3 className="text-base font-display font-semibold text-[#F5F5F0] pb-2 border-b border-[#232834] flex items-center justify-between">
+              <span>Academic Profile</span>
+              <span className="text-xs font-mono text-[#C7FF3A]">B.Tech CSE</span>
             </h3>
 
             <div className="space-y-4">
@@ -81,14 +83,17 @@ export const AboutSection: React.FC = () => {
                 <Compass className="w-5 h-5 text-[#C7FF3A] shrink-0 mt-0.5" />
                 <div className="space-y-0.5">
                   <span className="text-xs font-mono text-[#686D76] uppercase">Primary Interest</span>
-                  <p className="text-sm font-medium text-[#F5F5F0]">Full-Stack Engineering &amp; Applied AI Tools</p>
+                  <p className="text-sm font-medium text-[#F5F5F0]">Full-Stack Systems &amp; Web Applications</p>
                 </div>
               </div>
             </div>
 
             <div className="p-4 rounded-xl bg-[#0B0D10] border border-[#232834] text-xs text-[#969BA3]">
-              <span className="font-mono text-[#C7FF3A] block mb-1">Status Note</span>
-              Open to summer engineering internships, mentorship, and collaborative technical projects.
+              <div className="flex items-center space-x-2 text-[#C7FF3A] font-mono mb-1">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Engineering Ethics</span>
+              </div>
+              Focused on writing clean, reproducible software with truthful specifications, open source documentation, and verifiable testing.
             </div>
           </div>
         </div>

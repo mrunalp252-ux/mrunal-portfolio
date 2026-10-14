@@ -12,6 +12,7 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'work', label: 'Work', href: '#work' },
   { id: 'about', label: 'About', href: '#about' },
   { id: 'skills', label: 'Skills', href: '#skills' },
+  { id: 'education', label: 'Education', href: '#education' },
   { id: 'contact', label: 'Contact', href: '#contact' },
 ];
 
@@ -30,7 +31,7 @@ export const Navbar: React.FC = () => {
 
   // Active section scroll spy
   useEffect(() => {
-    const sectionIds = ['hero', 'work', 'about', 'skills', 'contact'];
+    const sectionIds = ['hero', 'work', 'about', 'skills', 'education', 'contact'];
     const observers: IntersectionObserver[] = [];
 
     sectionIds.forEach((id) => {
@@ -44,7 +45,7 @@ export const Navbar: React.FC = () => {
             }
           });
         },
-        { threshold: 0.35 },
+        { threshold: 0.3 },
       );
       obs.observe(el);
       observers.push(obs);
@@ -177,13 +178,13 @@ export const Navbar: React.FC = () => {
           aria-modal="true"
           aria-label="Mobile Navigation"
         >
-          <div className="flex flex-col space-y-4 pt-4">
+          <div className="flex flex-col space-y-3 pt-4">
             {NAV_ITEMS.map((item) => (
               <a
                 key={item.id}
                 href={item.href}
                 onClick={closeMenu}
-                className="text-2xl font-semibold text-[#F5F5F0] hover:text-[#C7FF3A] py-2 border-b border-[#232834]/50 transition-colors flex items-center justify-between"
+                className="text-xl font-semibold text-[#F5F5F0] hover:text-[#C7FF3A] py-2.5 border-b border-[#232834]/50 transition-colors flex items-center justify-between"
               >
                 <span>{item.label}</span>
                 {activeSection === item.id && (

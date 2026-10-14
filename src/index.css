@@ -43,6 +43,7 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   overflow-x: hidden;
+  position: relative;
 }
 
 ::selection {
@@ -54,6 +55,52 @@ body {
 :focus-visible {
   outline: 2px solid #c7ff3a;
   outline-offset: 3px;
+}
+
+/* Subtle CRT scan line overlay */
+.scanlines {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.015),
+    rgba(0, 255, 0, 0.008),
+    rgba(0, 0, 255, 0.015)
+  );
+  background-size: 100% 3px, 6px 100%;
+}
+
+/* Dynamic grid background */
+.tech-grid {
+  background-image: 
+    linear-gradient(to right, rgba(245, 245, 240, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(245, 245, 240, 0.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* Glowing accent radial aura */
+.hero-glow {
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(199, 255, 58, 0.07) 0%,
+    rgba(199, 255, 58, 0.02) 40%,
+    transparent 70%
+  );
+}
+
+/* Subtle animated border pulse */
+@keyframes borderPulse {
+  0%, 100% {
+    border-color: rgba(35, 40, 52, 0.8);
+  }
+  50% {
+    border-color: rgba(199, 255, 58, 0.4);
+  }
+}
+
+.pulse-border {
+  animation: borderPulse 4s ease-in-out infinite;
 }
 
 /* Reduced motion preference */
@@ -70,10 +117,10 @@ body {
   }
 }
 
-/* Custom scrollbar */
+/* Custom sleek scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {

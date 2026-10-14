@@ -1,5 +1,6 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { ExternalLink, CheckCircle2 } from 'lucide-react';
+import { useReducedMotion } from 'motion/react';
 import { GitHubIcon } from './Icons';
 import type { Project } from '../data/projects';
 import { KrishiSahayakDiagram } from './Diagrams';
@@ -11,25 +12,38 @@ interface ProjectCardProps {
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   const cardRef = useRef<HTMLElement>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setReducedMotion(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
+  const reducedMotion = useReducedMotion();
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     if (reducedMotion || !cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    setMousePos({ x, y });
+
+    // Subtle 3D perspective tilt
+    const normX = (x / rect.width - 0.5) * 6; // max 3 deg
+    const normY = -(y / rect.height - 0.5) * 6;
+    setTilt({ x: normY, y: normX });
   };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    setTilt({ x: 0, y: 0 });
+  };
+
+  const cardTransform =
+    !reducedMotion && isHovered
+      ? {
+          transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateY(-2px)`,
+          transition: 'transform 0.1s ease-out',
+        }
+      : {
+          transform: 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)',
+          transition: 'transform 0.4s ease-out',
+        };
 
   if (project.isFlagship) {
     return (
@@ -38,8 +52,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         id={`project-${project.id}`}
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        className="relative rounded-2xl bg-[#13161C] border border-[#232834] overflow-hidden transition-all duration-300 p-6 sm:p-8 lg:p-10 flex flex-col space-y-6 hover:border-[#373E50] hover:shadow-2xl hover:shadow-black/60 group"
+        onMouseLeave={handleMouseLeave}
+        style={cardTransform}
+        className="relative rounded-2xl bg-[#13161C] border border-[#232834] overflow-hidden p-6 sm:p-8 lg:p-10 flex flex-col space-y-6 hover:border-[#C7FF3A]/60 hover:shadow-2xl hover:shadow-black/70 group will-change-transform"
         aria-labelledby={`heading-${project.id}`}
       >
         {/* Dynamic Pointer Spotlight Glow on Desktop */}
@@ -47,13 +62,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           <div
             className="pointer-events-none absolute -inset-px transition-opacity duration-300 opacity-100 rounded-2xl"
             style={{
-              background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(199, 255, 58, 0.07), transparent 40%)`,
+              background: `radial-gradient(650px circle at ${mousePos.x}px ${mousePos.y}px, rgba(199, 255, 58, 0.08), transparent 45%)`,
             }}
             aria-hidden="true"
           />
         )}
 
-        {/* Flagship Header */}
+        {/* Top Flagship Header */}
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div className="space-y-2">
             <div className="flex items-center space-x-2">
@@ -154,15 +169,16 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     );
   }
 
-  // Secondary Project Card with Spotlight Hover & Refined Details
+  // Secondary Project Card with 3D Tilt & Spotlight Hover
   return (
     <article
       ref={cardRef}
       id={`project-${project.id}`}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="relative rounded-xl bg-[#13161C] border border-[#232834] p-6 transition-all duration-300 hover:border-[#373E50] hover:-translate-y-1 hover:shadow-xl hover:shadow-black/50 flex flex-col justify-between space-y-4 group overflow-hidden"
+      onMouseLeave={handleMouseLeave}
+      style={cardTransform}
+      className="relative rounded-xl bg-[#13161C] border border-[#232834] p-6 transition-all duration-300 hover:border-[#C7FF3A]/60 hover:shadow-xl hover:shadow-black/50 flex flex-col justify-between space-y-4 group overflow-hidden will-change-transform"
       aria-labelledby={`heading-${project.id}`}
     >
       {/* Pointer Spotlight on Desktop */}
@@ -170,7 +186,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         <div
           className="pointer-events-none absolute -inset-px transition-opacity duration-300 opacity-100 rounded-xl"
           style={{
-            background: `radial-gradient(350px circle at ${mousePos.x}px ${mousePos.y}px, rgba(199, 255, 58, 0.08), transparent 50%)`,
+            background: `radial-gradient(380px circle at ${mousePos.x}px ${mousePos.y}px, rgba(199, 255, 58, 0.08), transparent 50%)`,
           }}
           aria-hidden="true"
         />

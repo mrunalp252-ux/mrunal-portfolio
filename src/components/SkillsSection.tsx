@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cpu } from 'lucide-react';
+import { Cpu, Terminal } from 'lucide-react';
 import { SKILL_CATEGORIES } from '../data/skills';
 
 export const SkillsSection: React.FC = () => {
@@ -28,14 +28,15 @@ export const SkillsSection: React.FC = () => {
           {SKILL_CATEGORIES.map((category) => (
             <div
               key={category.title}
-              className="rounded-2xl bg-[#13161C] border border-[#232834] p-6 hover:border-[#373E50] transition-colors flex flex-col justify-between space-y-4"
+              className="rounded-2xl bg-[#13161C] border border-[#232834] p-6 hover:border-[#373E50] hover:shadow-lg hover:shadow-black/40 transition-all flex flex-col justify-between space-y-5 group"
             >
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-base font-display font-bold text-[#F5F5F0]">
-                    {category.title}
+                  <h3 className="text-base font-display font-bold text-[#F5F5F0] group-hover:text-white transition-colors flex items-center space-x-2">
+                    <Terminal className="w-4 h-4 text-[#C7FF3A]" />
+                    <span>{category.title}</span>
                   </h3>
-                  <span className="text-[11px] font-mono text-[#686D76]">
+                  <span className="text-[11px] font-mono text-[#686D76] px-2 py-0.5 rounded bg-[#181C25] border border-[#232834]">
                     {category.skills.length} tools
                   </span>
                 </div>
@@ -45,11 +46,11 @@ export const SkillsSection: React.FC = () => {
               </div>
 
               {/* Skills Tags */}
-              <div className="flex flex-wrap gap-2 pt-2 border-t border-[#232834]/80">
+              <div className="flex flex-wrap gap-2 pt-3 border-t border-[#232834]/80">
                 {category.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="inline-flex items-center px-3 py-1 rounded-md bg-[#181C25] border border-[#232834] text-xs font-mono text-[#F5F5F0] hover:border-[#C7FF3A]/60 hover:text-[#C7FF3A] transition-colors"
+                    className="inline-flex items-center px-3 py-1 rounded-md bg-[#181C25] border border-[#232834] text-xs font-mono text-[#F5F5F0] hover:border-[#C7FF3A]/60 hover:text-[#C7FF3A] hover:bg-[#13161C] transition-colors"
                   >
                     {skill}
                   </span>

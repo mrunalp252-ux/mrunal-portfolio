@@ -1,10 +1,11 @@
 import React from 'react';
 import { PROFILE } from '../data/profile';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp, ArrowUpRight } from 'lucide-react';
+import { GitHubIcon, LinkedInIcon } from './Icons';
+
+const CURRENT_YEAR = new Date().getFullYear();
 
 export const Footer: React.FC = () => {
-  const currentYear = new Date().getFullYear();
-
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -33,6 +34,7 @@ export const Footer: React.FC = () => {
             <a href="#work" className="hover:text-[#C7FF3A] transition-colors">Work</a>
             <a href="#about" className="hover:text-[#C7FF3A] transition-colors">About</a>
             <a href="#skills" className="hover:text-[#C7FF3A] transition-colors">Skills</a>
+            <a href="#education" className="hover:text-[#C7FF3A] transition-colors">Education</a>
             <a href="#contact" className="hover:text-[#C7FF3A] transition-colors">Contact</a>
             <button
               type="button"
@@ -46,9 +48,35 @@ export const Footer: React.FC = () => {
           </nav>
         </div>
 
+        {/* Social Links Row */}
+        <div className="flex items-center space-x-6 text-xs font-mono text-[#969BA3] pt-4 border-t border-[#232834]/50">
+          <a
+            href={PROFILE.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center space-x-1.5 hover:text-[#C7FF3A] transition-colors"
+            aria-label="Mrunal Patil on GitHub (opens in new tab)"
+          >
+            <GitHubIcon className="w-3.5 h-3.5" />
+            <span>github.com/mrunalp252-ux</span>
+            <ArrowUpRight className="w-3 h-3" />
+          </a>
+          <a
+            href={PROFILE.linkedinUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center space-x-1.5 hover:text-[#C7FF3A] transition-colors"
+            aria-label="Mrunal Patil on LinkedIn (opens in new tab)"
+          >
+            <LinkedInIcon className="w-3.5 h-3.5" />
+            <span>linkedin.com/in/mrunal-mahendra-patil</span>
+            <ArrowUpRight className="w-3 h-3" />
+          </a>
+        </div>
+
         {/* Dynamic Year & Copyright */}
-        <div className="pt-8 border-t border-[#232834]/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#686D76]">
-          <p>© {currentYear} {PROFILE.name}. All rights reserved.</p>
+        <div className="pt-6 border-t border-[#232834]/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#686D76]">
+          <p>© {CURRENT_YEAR} {PROFILE.name}. All rights reserved.</p>
           <p>Built with React, TypeScript &amp; Tailwind CSS.</p>
         </div>
       </div>
